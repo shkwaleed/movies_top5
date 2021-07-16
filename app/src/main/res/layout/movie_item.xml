@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="?selectableItemBackground"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="@color/white"
+            app:cardCornerRadius="@dimen/dp10">
+
+            <ImageView
+                android:id="@+id/item_movie_image"
+                android:layout_width="400dp"
+                android:layout_height="180dp"
+                android:layout_gravity="center_vertical"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/app_name"
+
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_launcher_background" />
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+ <!--   <androidx.cardview.widget.CardView
+        android:layout_width="250dp"
+        android:layout_height="23dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="@color/black"
+        android:alpha="0.6"
+
+        app:cardCornerRadius="10dp">-->
+
+        <TextView
+            android:id="@+id/item_article_title"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:paddingLeft="4dp"
+            android:background="@drawable/rounded_bg"
+            android:paddingRight="4dp"
+            android:textSize="17sp"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Movie Title"/>
+<!--    </androidx.cardview.widget.CardView>-->
+
+<!--
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_article_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/gilroybold"
+            android:lineHeight="@dimen/dp24"
+            android:maxLines="2"
+            android:textColor="?android:textColorPrimary"
+            android:textStyle="bold"
+            tools:text="@string/title_holder"
+            tools:targetApi="p" />
+
+        <TextView
+            android:id="@+id/item_post_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp4"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:fontFamily="@font/gilroymedium"
+            android:textColor="?android:textColorSecondary"
+            tools:text="@string/desc_holder" />
+
+        <TextView
+            android:id="@+id/item_post_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp4"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:fontFamily="@font/gilroymedium"
+            android:textColor="?android:textColorPrimary"
+            tools:text="@string/author" />
+
+    </LinearLayout>
+-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
