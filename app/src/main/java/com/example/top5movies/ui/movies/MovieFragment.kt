@@ -13,7 +13,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.google.gson.Gson
 import com.example.top5movies.R
 import com.example.top5movies.data.model.Movies
 import com.example.top5movies.data.model.MoviesMetadata
@@ -24,6 +23,7 @@ import com.example.top5movies.utils.BUNDLE_movie
 import com.example.top5movies.utils.NO_INTERNET_CONNECTION
 import com.example.top5movies.utils.SpacesItemDecorator
 import com.example.top5movies.utils.Status
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -50,7 +50,6 @@ class MovieFragment : BaseFragment<FragmentMovieBinding>() {
     private lateinit var movieAdapter: movieAdapter
     private var movies: List<MoviesMetadata>? = null
     private var allMovies: List<MoviesMetadata>? = null
-    private var responseRemaining = 0
     private var selectedYear = 0
     private val movieViewModel: MovieViewModel by activityViewModels()
     private val dataViewModel: MovieSharedViewModel by activityViewModels()
@@ -94,7 +93,6 @@ class MovieFragment : BaseFragment<FragmentMovieBinding>() {
         for (i in 0 until movies!!.size) {
             movieViewModel.fetchMovieImage(i, movies!!.get(i).title!!)
         }
-        responseRemaining = movies!!.size
 
     }
 
@@ -118,14 +116,28 @@ class MovieFragment : BaseFragment<FragmentMovieBinding>() {
                     (parent.getChildAt(0) as TextView).textSize = 16f
                     var year = years.get(pos).toInt()
                     selectedYear = year
-                    movies = allMovies!!.filter { it.year == year }
+                    movies = ArrayList()
+                    var newlist = ArrayList<MoviesMetadata>()
+                    for (i in 0 until allMovies!!.size) {
+                        if (allMovies!!.get(i).year == year) {
+                            newlist.add(allMovies!!.get(i))
+                        }
+                    }
+                    movies = newlist
+                    //movies = allMovies!!.filter { it.year == year }
                     var prevdata = dataViewModel.getListData(year)
                     if (prevdata.isNullOrEmpty()) {
                         movies = movies!!.subList(0, 5)
                         callApis()
+
                     } else {
-                        movies = prevdata
-                        renderList()
+                        if (prevdata.get(0).year != year) {
+                            movies = movies!!.subList(0, 5)
+                            callApis()
+                        } else {
+                            movies = prevdata
+                            renderList()
+                        }
                     }
                 } catch (e: Exception) {
                 }
@@ -144,7 +156,6 @@ class MovieFragment : BaseFragment<FragmentMovieBinding>() {
             try {
                 when (image.status) {
                     Status.SUCCESS -> {
-                        responseRemaining--
                         hideShimmerLoading()
                         hideErrorScreen()
                         if (image.data != null) {
@@ -153,13 +164,9 @@ class MovieFragment : BaseFragment<FragmentMovieBinding>() {
                                     var img = image.data.photos.photo[0]
                                     movies!![image.data.index!!].media =
                                         img.server + "/" + img.id + "_" + img.secret + ".jpg"
-                                    //  renderList(movies!!)
                                 }
-                                if (responseRemaining <= 0) {
-                                    dataViewModel.setListData(selectedYear, movies!!)
-                                    renderList()
-                                }
-
+                                dataViewModel.setListData(selectedYear, movies!!)
+                                renderList()
                             }
                         }
                     }
@@ -169,7 +176,6 @@ class MovieFragment : BaseFragment<FragmentMovieBinding>() {
                     }
 
                     Status.ERROR -> {
-                        responseRemaining--
                         if (image.message?.equals(NO_INTERNET_CONNECTION)!!) {
                             showErrorScreen(NO_INTERNET_CONNECTION)
                         } else {
@@ -177,10 +183,8 @@ class MovieFragment : BaseFragment<FragmentMovieBinding>() {
                         }
                         hideShimmerLoading()
 
-                        if (responseRemaining <= 0) {
-                            dataViewModel.setListData(selectedYear, movies!!)
-                            renderList()
-                        }
+                        dataViewModel.setListData(selectedYear, movies!!)
+                        renderList()
 
                     }
                 }

@@ -46,11 +46,15 @@ class MovieSharedViewModel @Inject constructor(): ViewModel() {
         }
     }
     fun setListData(year:Int,data:List<MoviesMetadata>) {
-            var listdata=list.filter { it.year==year }
-            if(!listdata.isNullOrEmpty()){
-                list.remove(listdata.get(0))
+        if(!data.isNullOrEmpty()) {
+            if(data.get(0).year==year) {
+                var listdata = list.filter { it.year == year }
+                if (!listdata.isNullOrEmpty()) {
+                    list.remove(listdata.get(0))
+                }
+                list.add(YearMovies(year, data))
             }
-            list.add(YearMovies(year,data))
+        }
     }
 
 }
