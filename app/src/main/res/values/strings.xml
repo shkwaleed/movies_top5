@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">Top5Movies</string>
+    <string name="app_name">Movies</string>
+
+    <!--item_movie [start]-->
+    <string name="title_holder">I Just Didn’t Want to Be Alive Anymore’: Meghan Says Life as Royal Made Her Suicidal</string>
+    <string name="desc_holder">n a bombshell interview with Oprah Winfrey, the Duchess of Sussex said she had asked officials at Buckingham Palace for medical help but was told it would damage the institution.</string>
+    <string name="author">By Mark Landler</string>
+    <!--end-->
+
+    <!-- Menu [start]-->
+    <string name="night_mode">Night Mode Switch</string>
+    <string name="retry">Retry</string>
+    <!--end-->
+
 </resources>
